@@ -69,6 +69,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.main-wrap {
+  background-color: red;
+}
 </style>
