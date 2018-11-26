@@ -7,6 +7,8 @@
 
 <script>
 import card from '@/components/card';
+import CONSTANT from '@/base/constant';
+import { formatTime } from '@/utils/index';
 
 export default {
   data () {
@@ -43,6 +45,7 @@ export default {
   },
 
   created () {
+    console.log('-----')
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
 
@@ -51,11 +54,11 @@ export default {
     //查询数据
     db.collection('dog').get({
       success: function (res) {
-        // res.data 包含该记录的数据
         console.log(res)
       }
     });
 
+    //测试云函数
     wx.cloud.callFunction({
       name: 'srcCloud',
       data: {
@@ -65,12 +68,17 @@ export default {
     .then(resp => {
       console.log(resp);
     });
+
+    //测试全局变量
+    console.warn('====测试全局变量');
+    console.log(CONSTANT);
   }
 }
 </script>
 
 <style lang="scss" scoped>
+$--color-gold: gold;
 .main-wrap {
-  background-color: red;
+  background-color: $--color-gold;
 }
 </style>
