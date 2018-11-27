@@ -16,7 +16,8 @@
     "list": [{
         "pagePath": "pages/index/main",
         "text": "首页",
-        "iconPath": "/static/icon/home@90px.png"
+        "iconPath": "/static/icon/home@90px.png",
+        "selectedPath": ""
       }, {
         "pagePath": "pages/logs/main",
         "text": "日志"
