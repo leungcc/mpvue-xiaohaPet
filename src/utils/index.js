@@ -1,7 +1,17 @@
-function formatNumber (n) {
+export function formatNumber (n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
+
+/**
+ * @desc cloudFunction是否正确返回
+ */
+export function cloudFunctionHasNext(resp) {
+  if(resp.result) return resp;
+  return Promise.reject();
+}
+
+
 
 export function formatTime (date) {
   const year = date.getFullYear()
@@ -20,5 +30,6 @@ export function formatTime (date) {
 
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  cloudFunctionHasNext
 }

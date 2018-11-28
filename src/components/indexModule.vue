@@ -29,6 +29,7 @@ export default {
 .index-module {
   width: 100%;
   .index-module-hd {
+    padding: 0 20rpx;
     height: 120rpx;
     line-height: 120rpx;
     display: flex;

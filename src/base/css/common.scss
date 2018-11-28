@@ -1,6 +1,8 @@
 @import './icon.scss';
 
 $--color-theme: #10cbba;
+$--color-white: #fff;
+$--color-white-light: #f1f1f1;
 $--color-border-gray: #ddd;
 $--color-font-black: #333;
 
@@ -9,15 +11,25 @@ div,p,h1,h2,h3,h4,h5,h6,span,ul,li {box-sizing: border-box;}
 .common-radius { border-radius: 10rpx; }
 .common-shadow { box-shadow:#eee 0px 1px 5px 2px; }
 
-.ver-center {
+//左右padding
+@for $i from 1 through 80 {
+  .lrpadding#{$i} { padding: 0 #{$i}rpx; }
+}
+
+
+@mixin ver-center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
+.ver-center {
+  @include ver-center();
+}
+
 .p-wrap {
-  padding: 0 20rpx; 
+  //padding: 0 20rpx; 
   height: 100%;
   width: 100%;
   overflow-x: hidden;
