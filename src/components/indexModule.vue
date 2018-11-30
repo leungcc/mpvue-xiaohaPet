@@ -13,6 +13,9 @@
 <script>
 export default {
   name: 'IndexModule',
+  created() {
+    this.ss__data = this.data;
+  },
   props: {
     title: String,
     customClass: String,
@@ -20,7 +23,7 @@ export default {
     data: Array|Object 
   },
   data() {
-
+    ss__data: []
   }
 }
 </script>

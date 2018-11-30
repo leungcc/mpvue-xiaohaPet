@@ -3,7 +3,10 @@
     <!-- 顶部容器 -->
     <div class="index-top-wrap lrpadding20">
       <div class="l-wrap" style="width:130rpx;">
-        <span class="cald-block common-radius common-shadow"></span>
+        <span class="cald-block common-radius common-shadow">
+          <span class="txt-today">Today</span>
+          <span class="txt-date">30</span>
+        </span>
         <span class="search-block common-radius pr common-shadow">
           <i class="i-search2 common-icon ver-center"></i>
         </span>
@@ -17,10 +20,22 @@
 
     <!-- 快速通道容器 -->
     <div class="hyperchannel-wrap lrpadding80">
-      <span class="hyperchannel-item">{{motto}}</span>
-      <span class="hyperchannel-item"></span>
-      <span class="hyperchannel-item"></span>
-      <span class="hyperchannel-item"></span>
+      <span class="hyperchannel-item">
+        <i class="i-hyperchannel i-hyper-dog"></i>
+        <span class="hyperchannel-txt text-overflow">宠物类型</span>
+      </span>
+      <span class="hyperchannel-item">
+        <i class="i-hyperchannel i-hyper-chat"></i>
+        <span class="hyperchannel-txt text-overflow">宠物文章</span>
+      </span>
+      <span class="hyperchannel-item">
+        <i class="i-hyperchannel i-hyper-heart"></i>
+        <span class="hyperchannel-txt text-overflow">身边宠物</span>
+      </span>
+      <span class="hyperchannel-item">
+        <i class="i-hyperchannel i-hyper-my"></i>
+        <span class="hyperchannel-txt text-overflow">我的地盘</span>
+      </span>
     </div>
 
     <line width="90.6%"></line>
@@ -54,19 +69,22 @@
           </swiper>
         </div>  
       </indexModule>
-      <!-- m-明星宠物 -->
+      <!-- m-明星宠物 --> <!-- !!!slot内套 patstar-card组件有问题！ -->
       <index-module
         custom-class="pat-star"
         title="明星宠物"
         :data="patStar">
-        <div style="height:360rpx;" slot>
-
-          <patstarCard 
-            v-for="(item, index) in patStar"
-            :key="item._id"
-            :data="item"></patstarCard>  
-        </div>
       </index-module>
+      <div class="pat-star-bd">
+        <div class="card-wrap">
+          <patstar-card
+            v-for="(item,index) in patStar"
+            :key="index"
+            :data="item"
+          ></patstar-card>
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -101,9 +119,9 @@ export default {
     //this.testCloud();
   },
 
-  data () {
+  data() {
     return {
-      motto: 'Hello World',
+      date_td: new Date(),
       userInfo: {},
       imReadingData: [{
         type: '热门推荐',
@@ -115,7 +133,8 @@ export default {
         title: '温馨生活',
         img: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1526156770,4220481624&fm=173&app=49&f=JPEG?w=218&h=146&s=304348B4EE2E029EA84B71830300A088'
       }],
-      patStar: []
+      patStar: [],
+      
     }
   },
 
@@ -166,6 +185,7 @@ export default {
         console.warn('patStar')
         console.warn(resp)
         this.patStar = resp.data;
+
       })
     },
 
@@ -231,7 +251,22 @@ export default {
       display: inline-block;
       background: url('https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/rilibg.png') no-repeat;
       background-size:100% auto;
+      text-align: center;
+      > span {
+        color: $--color-white;
+        display: block;
+      }
 
+      .txt-today {
+        font-size: 28rpx;
+        height: 64rpx;
+        line-height: 64rpx;
+      }
+      .txt-date {
+        font-size: 46rpx;
+        height: 54rpx;
+        line-height: 54rpx;
+      }
     }
     .search-block {
       height: 56rpx;
@@ -267,7 +302,17 @@ export default {
     .hyperchannel-item {
       width: 120rpx;
       height: 120rpx;
-      border: 1rpx solid $--color-border-gray;
+      //border: 1rpx solid $--color-border-gray;
+
+      .hyperchannel-txt {
+        display: block;
+        height: 40rpx;
+        line-height: 40rpx;
+        width: 100%;
+        text-align: center;
+        font-size: 24rpx;
+        color: $--color-font-black;
+      }
     }
   }
 
@@ -312,6 +357,28 @@ export default {
 
     .pat-star {
       padding-left: 20rpx;
+    }
+
+    .pat-star-bd {
+      width: auto;
+      margin-top: 0;
+      padding-left: 20rpx;
+      
+      height: 360rpx;
+      overflow: hidden;
+
+      .card-wrap{
+        height: 375rpx;
+        width: auto;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+       
+        > div {
+          margin-right: 20rpx;
+        }
+      }
     }
   }
 }

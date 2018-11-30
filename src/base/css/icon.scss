@@ -1,3 +1,29 @@
 .i-search2 {
   background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/search@2x.png");
 }
+
+.i-hyperchannel {
+  //background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/icon-sprite.png") no-repeat;
+
+  width: 48rpx;
+  height: 48rpx;
+  display: block;
+  background-size: 100% auto !important;
+  margin: 10rpx auto;
+}
+.i-hyper-dog {
+  //background-position: -5px -4px;
+  background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/hyper/i-hyper-dog.png")
+}
+.i-hyper-chat {
+  //background-position: -5px -52px;
+  background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/hyper/i-hyper-chat.png")
+}
+.i-hyper-heart {
+  //background-position: -5px -100px;
+  background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/hyper/i-hyper-heart.png")
+}
+.i-hyper-my {
+  //background-position: -5px -148px;
+  background: url("https://7863-xctest1-62e0ce-1257796632.tcb.qcloud.la/icon/hyper/i-hyper-my.png")
+}

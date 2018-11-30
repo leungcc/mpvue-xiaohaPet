@@ -4,6 +4,7 @@ $--color-theme: #10cbba;
 $--color-white: #fff;
 $--color-white-light: #f1f1f1;
 $--color-border-gray: #ddd;
+$--color-font-host: #c7c7c7;
 $--color-font-black: #333;
 
 div,p,h1,h2,h3,h4,h5,h6,span,ul,li {box-sizing: border-box;}
@@ -28,6 +29,12 @@ div,p,h1,h2,h3,h4,h5,h6,span,ul,li {box-sizing: border-box;}
   @include ver-center();
 }
 
+.text-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .p-wrap {
   //padding: 0 20rpx; 
   height: 100%;
@@ -40,3 +47,29 @@ div,p,h1,h2,h3,h4,h5,h6,span,ul,li {box-sizing: border-box;}
 .border-gray {
   border: 1rpx solid $--color-border-gray;
 }
+
+
+//========================滚动条
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+::-webkit-scrollbar  
+{  
+    width: 4px;  
+    height: 4px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滚动条轨道 内阴影+圆角*/  
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);  
+    border-radius: 10px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滑块 内阴影+圆角*/  
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.2);  
+    background-color: #ddd;  
+} 
