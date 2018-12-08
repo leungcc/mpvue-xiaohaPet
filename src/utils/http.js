@@ -47,6 +47,10 @@ class HttpServer {
     if(data) return db.collection('patstar').where(data).get();
     return db.collection('patstar').get();
   }
+
+  getReadingList(data) {
+    return db.collection('reading').get();
+  }
 }
 
 export default new HttpServer()

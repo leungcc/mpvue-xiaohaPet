@@ -3,7 +3,7 @@
       <vant-button @click="uploadImgBtnCb">上传图片</vant-button>
       <vant-button @click="getUserInfo">个人信息</vant-button>
       <vant-button @click="removeAllUser">删除所有user</vant-button>
-      <image v-if="uploadImgPath" :src="uploadImgPath"/>
+      <image v-if="uploadImgPath" :src="uploadImgPath" class="upload-img-wrap" mode="aspectFit"/>
   </div>
 </template>
 
@@ -99,5 +99,9 @@ export default {
 $--color-gold: gold;
 .main-wrap {
   //background-color: $--color-gold;
+
+  .upload-img-wrap {
+    width: 100%;
+  }
 }
 </style>

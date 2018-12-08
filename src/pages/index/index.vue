@@ -84,7 +84,21 @@
           ></patstar-card>
         </div>
       </div>
-      
+      <!-- m-精彩阅读 --> <!-- !!!slot内套 patstar-card组件有问题！ -->
+      <index-module
+        custom-class="splendid-reading"
+        title="精彩阅读"
+        :data="readingList">
+      </index-module>
+      <div class="splendid-reading-bd">
+        <div class="card-wrap">
+          <reading-card
+            v-for="item in readingList"
+            :key="item._id"
+            :data="item"
+          ></reading-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +108,7 @@ import card from '@/components/card';
 import line from '@/components/line';
 import indexModule from '@/components/indexModule';
 import patstarCard from '@/components/patstarCard';
+import readingCard from '@/components/readingCard';
 import CONSTANT from '@/base/constant';
 import httpServer from '@/utils/http';
 import { cloudFunctionHasNext } from '@/utils/index';
@@ -108,13 +123,15 @@ export default {
     card, 
     line,
     indexModule,
-    patstarCard
+    patstarCard,
+    readingCard
   },
 
   created () {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
     this.getPatstarList();
+    this.getReadingList();
 
     //this.testCloud();
   },
@@ -134,6 +151,12 @@ export default {
         img: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1526156770,4220481624&fm=173&app=49&f=JPEG?w=218&h=146&s=304348B4EE2E029EA84B71830300A088'
       }],
       patStar: [],
+      readingList: [{
+        "column": "猫咪专栏",
+        "title": "猫咪开心的时候会有什么表现",
+        "imgpath": "cloud://xctest1-62e0ce.7863-xctest1-62e0ce/banner/read1.png",
+        "content": "猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会猫咪开心的时候会"
+      }]
       
     }
   },
@@ -182,10 +205,13 @@ export default {
      */
     getPatstarList() {
       httpServer.getPatstar().then(resp => {
-        console.warn('patStar')
-        console.warn(resp)
         this.patStar = resp.data;
+      })
+    },
 
+    getReadingList() {
+      httpServer.getReadingList().then(resp => {
+        this.readingList = resp.data;
       })
     },
 
@@ -377,6 +403,17 @@ export default {
        
         > div {
           margin-right: 20rpx;
+        }
+      }
+    }
+
+    .splendid-reading-bd {
+      margin-top: 0;
+      padding: 0 20rpx;
+
+      .card-wrap {
+        > div:not(:first-child) {
+          margin-top: 30rpx;
         }
       }
     }
