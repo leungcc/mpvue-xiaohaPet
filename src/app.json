@@ -3,7 +3,8 @@
     "pages/index/main",
     "pages/personal/main",
     "pages/logs/main",
-    "pages/read/main"
+    "pages/read/main",
+    "pages/nearby/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

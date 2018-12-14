@@ -20,19 +20,19 @@
 
     <!-- 快速通道容器 -->
     <div class="hyperchannel-wrap lrpadding80">
-      <span class="hyperchannel-item">
+      <span class="hyperchannel-item" @click.stop="hyperchannelGo('petType')">
         <i class="i-hyperchannel i-hyper-dog"></i>
         <span class="hyperchannel-txt text-overflow">宠物类型</span>
       </span>
-      <span class="hyperchannel-item">
+      <span class="hyperchannel-item" @click.stop="hyperchannelGo('petRead')">
         <i class="i-hyperchannel i-hyper-chat"></i>
         <span class="hyperchannel-txt text-overflow">宠物文章</span>
       </span>
-      <span class="hyperchannel-item">
+      <span class="hyperchannel-item" @click.stop="hyperchannelGo('nearby')">
         <i class="i-hyperchannel i-hyper-heart"></i>
         <span class="hyperchannel-txt text-overflow">身边宠物</span>
       </span>
-      <span class="hyperchannel-item">
+      <span class="hyperchannel-item" @click.stop="hyperchannelGo('my')">
         <i class="i-hyperchannel i-hyper-my"></i>
         <span class="hyperchannel-txt text-overflow">我的地盘</span>
       </span>
@@ -244,6 +244,28 @@ export default {
       .then(resp => {
         console.log(resp);
       });
+    },
+
+    /**
+     * @desc 快速通道点击跳转
+     */
+    hyperchannelGo(channel) {
+      console.warn(channel);
+      if(channel === 'nearby') {
+        //wx.navi
+        wx.navigateTo({
+          url: '../nearby/main',
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
+      }
     }
   }
 }
