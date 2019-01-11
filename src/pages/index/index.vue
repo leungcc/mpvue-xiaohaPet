@@ -75,7 +75,7 @@
         title="明星宠物"
         :data="patStar">
       </index-module>
-      <div class="pat-star-bd">
+      <!-- <div class="pat-star-bd">
         <div class="card-wrap">
           <patstar-card
             v-for="(item,index) in patStar"
@@ -83,7 +83,20 @@
             :data="item"
           ></patstar-card>
         </div>
-      </div>
+      </div> -->
+      <scroll-view
+        :scroll-x="true"
+        :scroll-with-animation="true">
+        <div class="pat-star-bd">
+          <div class="card-wrap">
+            <patstar-card
+              v-for="(item,index) in patStar"
+              :key="index"
+              :data="item"
+            ></patstar-card>
+          </div>
+        </div>
+      </scroll-view>
       <!-- m-精彩阅读 --> <!-- !!!slot内套 patstar-card组件有问题！ -->
       <index-module
         custom-class="splendid-reading"
@@ -130,7 +143,7 @@ export default {
   created () {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
-    this.getPatstarList();
+    this.getPetstarList();
     this.getReadingList();
 
     //this.testCloud();
@@ -203,8 +216,8 @@ export default {
     /**
      * @desc 获取明星宠物列表
      */
-    getPatstarList() {
-      httpServer.getPatstar().then(resp => {
+    getPetstarList() {
+      httpServer.getPetstar().then(resp => {
         this.patStar = resp.data;
       })
     },
@@ -409,6 +422,7 @@ export default {
 
     .pat-star-bd {
       width: auto;
+      //width: 100%;
       margin-top: 0;
       padding-left: 20rpx;
       

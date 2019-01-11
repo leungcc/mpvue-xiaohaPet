@@ -39,8 +39,6 @@ export default {
   methods: {
     getHistoryUser() {
       httpServer.getUser().then(resp => {
-        console.warn('print getUser resp')
-        console.warn(resp)
         resp && resp.data && (this.historyUser = resp.data);
       })
     }

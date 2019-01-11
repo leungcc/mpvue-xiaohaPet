@@ -4,7 +4,7 @@ const _ = db.command;
 
 class HttpServer {
   constructor() {
-    console.error('!!!!!!!!!new HttpServer');
+    //console.error('!!!!!!!!!new HttpServer');
   }
   
   /**
@@ -43,7 +43,7 @@ class HttpServer {
     return db.collection('user').where({}).remove();
   }
 
-  getPatstar(data) {
+  getPetstar(data) {
     if(data) return db.collection('patstar').where(data).get();
     return db.collection('patstar').get();
   }
