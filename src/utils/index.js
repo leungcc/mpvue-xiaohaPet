@@ -11,7 +11,9 @@ export function cloudFunctionHasNext(resp) {
   return Promise.reject();
 }
 
-
+export function respShowError(err) {
+  console.error(err)
+}
 
 export function formatTime (date) {
   const year = date.getFullYear()

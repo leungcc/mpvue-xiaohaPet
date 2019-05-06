@@ -8,10 +8,19 @@ $--color-font-label: #606060;
 $--color-font-host: #c7c7c7;
 $--color-font-black: #333;
 
+
 .van-button--primary {background-color: $--color-theme !important; border-color: $--color-theme !important;}
 
 div,p,h1,h2,h3,h4,h5,h6,span,ul,li {box-sizing: border-box;}
 .pr{ position: relative; }
+.tc{ text-align: center; }
+.pr{ position: relative; }
+.horiz-vert-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .common-radius { border-radius: 10rpx; }
 .common-shadow { box-shadow:#eee 0px 1px 5px 2px; }
 

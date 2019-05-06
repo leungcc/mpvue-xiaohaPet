@@ -31,9 +31,9 @@ export default {
 
   created () {
     this.getHistoryUser();
-    httpServer.getBook().then(resp => {
-      console.warn(resp);
-    })
+    // httpServer.getBook().then(resp => {
+    //   console.warn(resp);
+    // })
   },
 
   methods: {

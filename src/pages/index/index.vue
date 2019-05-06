@@ -113,6 +113,10 @@
         </div>
       </div>
     </div>
+
+    <!--各种组件-->
+    <van-notify id="notify-selector" />
+    <van-dialog id="van-dialog" />
   </div>
 </template>
 
@@ -124,7 +128,10 @@ import patstarCard from '@/components/patstarCard';
 import readingCard from '@/components/readingCard';
 import CONSTANT from '@/base/constant';
 import httpServer from '@/utils/http';
-import { cloudFunctionHasNext } from '@/utils/index';
+import cloudFn from '@/utils/cloudFn';
+import Notify from '../../../static/vant/notify/notify';
+import Dialog from '../../../static/vant/dialog/dialog';
+import { cloudFunctionHasNext, respShowError } from '@/utils/index';
 
 
 //数据库
@@ -141,12 +148,23 @@ export default {
   },
 
   created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo();
+      
     this.getPetstarList();
     this.getReadingList();
 
     //this.testCloud();
+  },
+
+  mounted() {
+    
+  },
+
+  onShow() {
+    const _this = this;
+    // 调用应用实例的方法获取全局数据
+    if(!CONSTANT.USER_INFO) {
+      this.authsHandle();
+    }
   },
 
   data() {
@@ -176,41 +194,136 @@ export default {
 
   methods: {
     /**
+     * @desc 获取配置
+     */
+    getSetting() {
+      return new Promise(function(resolve, reject) {
+        wx.getSetting({
+          success: resolve,
+          fail: reject
+        })
+      })
+    },
+
+    /**
+     * @desc 向用户发起授权请求
+     */
+    askForAuth() {
+      wx.authorize({
+        scope: 'scope.userInfo',
+        success(resp) {
+          Notify({
+            text: `授权成功`,
+            duration: 2000,
+            selector: '#notify-selector',
+            backgroundColor: '#67c23a'
+          });
+        },
+        fail: respShowError
+      })
+    },
+
+    /**
+     * @desc 权限处理
+     *       获取setting，没scope.userInfo
+     */
+    authsHandle() {
+      const _this = this;
+      _this.getSetting()
+        .then(resp => {
+          if(resp.authSetting && resp.authSetting['scope.userInfo']) {
+            _this.getUserInfo();
+          } else {
+            _this.getUserInfoFailCb();
+          }
+        })
+        .catch(respShowError)
+    },
+
+    /**
      * @desc 获取用户信息
      */
     getUserInfo () {
-      const __this = this;
+      const _this = this;
+
       // 调用登录接口
       wx.login({
         success: (respLg) => {
+          console.log('wx.login:', respLg)
           wx.getUserInfo({
-            success: (resp) => {
-              //存储用户信息
-              CONSTANT.USER_INFO = this.userInfo = resp.userInfo;
-
-              __this.getOpenId()
-                .then(cloudFunctionHasNext)
-                .then(resp => {
-                  let openid = CONSTANT.OPEN_ID = resp.result.userInfo.openId;
-                  let params = { openid };
-                  return httpServer.getUser(params)
-                })
-                .then(resp => {
-                  //没有该数据就请求入库
-                  if(resp && resp.data && !resp.data.length) {
-                    let params = {
-                      ...CONSTANT.USER_INFO,
-                      openid: CONSTANT.OPEN_ID
-                    }
-                    return httpServer.addUser(params);
-                  }
-                  return Promise.reject();
-                })
-
-            }
+            success: _this.querySaveUserInfo,
+            fail: _this.getUserInfoFailCb
           })
         }
       })
+    },
+
+    /**
+     * @desc 获取用户信息失败的回调
+     */
+    getUserInfoFailCb(err) {
+      // Dialog.alert({
+      //   title: '提示',
+      //   message: `无法获取您的用户信息，「右上角」 - 「关于」 - 「右上角」 - 「设置」，开启获取用户信息权限`
+      // }).then(() => {
+      //   console.warn('openSetting..')
+      //   wx.openSetting();
+      // });
+      
+      Dialog.alert({
+        title: '提示',
+        message: `请先授权小程序获取您的个人信息（昵称、姓名）`
+      }).then(() => {
+        wx.navigateTo({
+          url: '../authorization/main'
+        })
+      });
+
+      console.error(err)
+    },
+
+    /**
+     * @desc 查询数据库有无当前用户，没有则入库
+     * @param {Object} resp getUserInfo返回的数据
+     */
+    querySaveUserInfo(resp) {
+      const _this = this;
+      //存储用户信息
+      CONSTANT.USER_INFO = this.userInfo = resp.userInfo;
+      Notify({
+        text: `欢迎回小哈，亲爱的${resp.userInfo.nickName}`,
+        duration: 2000,
+        selector: '#notify-selector',
+        backgroundColor: '#10cbba'
+      });
+
+      _this.getOpenId()
+        .then(cloudFunctionHasNext)
+        .then(resp => {
+          let openid = CONSTANT.OPEN_ID = resp.result.userInfo.openId;
+          let params = { openid };
+          return httpServer.getUser(params)
+        })
+        .then(resp => {
+          //没有该数据就请求入库
+          if(resp && resp.data && !resp.data.length) {
+            let params = {
+              userData: {
+                ...CONSTANT.USER_INFO,
+                openid: CONSTANT.OPEN_ID
+              }
+            }
+            //return cloudFn.saveUser(params)
+            return cloudFn.callFunc('saveUser', params);
+          }
+          return Promise.reject(`${CONSTANT.USER_INFO.nickName}已经在数据库内，无需新增`);
+        })
+        .then(cloudFunctionHasNext)
+        .then(resp => {
+          console.log('cloudFn.saveUser then run~~~')
+          console.warn(resp)
+        })
+        .catch(respShowError)
     },
 
     /**
@@ -229,10 +342,7 @@ export default {
     },
 
     getOpenId() {
-      return wx.cloud.callFunction({
-        name: 'srcCloud',
-        data: {}
-      })
+      return cloudFn.callFunc('srcCloud')
     },
 
     /**
@@ -263,7 +373,6 @@ export default {
      * @desc 快速通道点击跳转
      */
     hyperchannelGo(channel) {
-      console.warn(channel);
       if(channel === 'nearby') {
         //wx.navi
         wx.navigateTo({

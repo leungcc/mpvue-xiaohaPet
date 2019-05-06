@@ -4,7 +4,8 @@
     "pages/personal/main",
     "pages/logs/main",
     "pages/read/main",
-    "pages/nearby/main"
+    "pages/nearby/main",
+    "pages/authorization/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,7 +25,7 @@
         "text": "日志"
       }, {
         "pagePath": "pages/read/main",
-        "text": "阅读"
+        "text": "宠友圈"
       }, {
         "pagePath": "pages/personal/main",
         "text": "我的",

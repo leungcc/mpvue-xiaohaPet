@@ -14,7 +14,7 @@
 <script>
 export default {
   created() {
-    console.log('Page read created...');
+    console.warn('Page read created...', '说明所有page的create函数在进入小程序首页即会执行');
   },
   data() {
     return {

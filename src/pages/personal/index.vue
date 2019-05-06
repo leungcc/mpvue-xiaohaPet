@@ -4,6 +4,13 @@
       <vant-button @click="getUserInfo">个人信息</vant-button>
       <vant-button @click="removeAllUser">删除所有user</vant-button>
       <image v-if="uploadImgPath" :src="uploadImgPath" class="upload-img-wrap" mode="aspectFit"/>
+
+      <form 
+        :report-submit="true"
+        @submit="submitTestForm">
+        <!-- <vant-button form-type="submit">提交</vant-button> -->
+        <button form-type="submit">测试表单提交推送</button>
+      </form>
   </div>
 </template>
 
@@ -11,12 +18,22 @@
 import card from '@/components/card';
 import CONSTANT from '@/base/constant';
 import httpServer from '@/utils/http';
+import cloudFn from '@/utils/cloudFn';
 import { formatTime } from '@/utils/index';
 
 //数据库
 const db = wx.cloud.database();
 
 export default {
+  
+  created () {
+    //xc test 蓉老板内网穿透
+    //this.testRongServer();
+    //xc test
+    this.testpciServer();
+    
+  },
+
   data () {
     return {
       uploadImgPath: ''
@@ -29,18 +46,59 @@ export default {
 
   methods: {
     /**
-     * @desc 获取用户信息
+     * @desc 测试提交表单
      */
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-              console.log(res)
-            }
-          })
+    async submitTestForm(event) {
+      console.warn('submitTestForm..')
+      // const formResp = await cloudFn.callFunc('testFormSubmitSend', {
+      //   content: '哈哈'
+      // })
+      console.log(event)
+      const formId = event.mp.detail.formId;
+      console.log(1)
+      const uniformMsgSendResp = await cloudFn.callFunc('uniformMsgSend', {
+        formId
+      });
+      console.log(2)
+
+    },
+    /**
+     * 
+     */
+    testpciServer() {
+      // wx.request({
+      //   url: "https://www.pcitech.com:8084/face-manage/api/weixin/saveVisitor",
+      //   success(resp) {
+      //     console.log(resp);
+      //   },
+      //   fail(err) {
+      //     console.log(err)
+      //   }
+      // })
+    },
+    /**
+     * @desc 测试蓉老板内网穿透
+     */
+    testRongServer() {
+      wx.request({
+        url: 'http://rong.easy.echosite.cn/face-manage/api/weixin/code2Session',
+        data: {
+          appid: '123',
+          secret: '123',
+          js_code: 'js_code',
+          grant_type: 'authorization_code'
+        },
+        header: {
+          "Content-Type": "application/json",
+          //"token": "6c1561405673943b7dd579e0b0e93696"
+        },
+        success: function(resp) {
+          console.warn('测试蓉老板接口成功')
+          console.log(resp)
+        },
+        fail: function(resp) {
+          console.error('测试蓉老板接口失败')
+          console.log(resp)
         }
       })
     },
@@ -86,12 +144,8 @@ export default {
       })
     }
     
-  },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo();
   }
+
 }
 </script>
 

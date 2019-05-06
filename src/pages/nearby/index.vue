@@ -10,19 +10,19 @@
       scale="14" show-location
       sub-key="F3PBZ-UT5RR-27ZWE-WXK45-SNDNZ-P5F5T"
       :controls="controls" :markers="markers">
-      <!-- <cover-view class="search-result">
-        <cover-view class="search-result-wrap">
-          
-        </cover-view>
-      </cover-view> -->
     </map>
-    <div class="petcard-wrap">
+    <!--<div class="petcard-wrap hahaha">-->
+    <scroll-view
+      class="petcard-wrap"
+      :scroll-y="true"
+      :scroll-with-animation="true">
       <nearby-petcard
         v-for="item in petStar"
         :key="item._id"
         :item="item"
       ></nearby-petcard>
-    </div>
+    </scroll-view>
+    <!--</div>-->
   </div>
 </template>
 
@@ -40,10 +40,7 @@ export default {
   created() {
     const self = this;
 
-    console.log('Page nearby created...');
-
     //过3秒后移动到
-
     qqmapsdk = new QQMapWX({
       key: 'F3PBZ-UT5RR-27ZWE-WXK45-SNDNZ-P5F5T'
     });
@@ -117,6 +114,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+
+page {
+  height: 100%;
+}
+
 .p-nearby {
   height: 100%;
   overflow: hidden;

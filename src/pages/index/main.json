@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "小哈宠物",
+  "usingComponents": {
+    "van-notify": "../../../static/vant/notify/index",
+    "van-dialog": "../../../static/vant/dialog/index"
+  }
+}
